@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <title>Document</title>
+    <style>
+
+        body{
+            background: linear-gradient(#e66465, #9198e5);
+        }
+        #myMap{
+            width:90%;
+            height:700px;
+            border-radius: 50px;
+            position: relative;
+        }
+        #myMap1{
+            width:90%;
+            height:700px;
+            border-radius: 50px;
+            position: relative;
+        }
+        button{
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1> Want to know your current location?</h1>
+
+        <p>Click the button to get your coordinates.</p>
+        
+        <button class="btn btn-primary" onclick="getLocation()">Try It</button>
+        
+        <p id="demo" style="color: beige;"></p>
+            <div id="myMap"></div>
+        <!-- <div id="myMap" style="position:relative;width:800px;height:600px;"></div> -->
+        
+        
+        <!-- <div id="myMap"></div> -->
+        <canvas></canvas>
+    </center>
+
+    <script type='text/javascript'
+    src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AnU-Pk6TLs36jmpIhPzMczu14fAjEaV_OFCIu6l2rrU-IlPMGkxCI1xeP8DZ9YU-' 
+    async defer></script>
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type='text/javascript'>
+          
+    
+        //-----------------------------------------------------------------------------------
+       function GetMap(long, lat){
+        if(!long || !lat){
+            var map = new Microsoft.Maps.Map('#myMap')
+        }
+            var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'Your Bing Maps Key',
+            center: new Microsoft.Maps.Location(long, lat),
+            mapTypeId: Microsoft.Maps.MapTypeId.road,
+            zoom: 15
+            });
+            var center = map.getCenter();
+
+        //Create custom Pushpin
+            var pin = new Microsoft.Maps.Pushpin(center, {
+                color: 'red'
+            }); 
+
+        //Add the pushpin to the map
+            map.entities.push(pin);
+
+        //Add your post map load code here.
+        // map = new Microsoft.Maps.Map('#myMap', {});
+
+        }
+        var x = document.getElementById("demo");
+    
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+          }
+        }
+    
+        function showPosition(position) {
+        
+            const longitude = position.coords.latitude
+            const latitude = position.coords.longitude
+            x.innerHTML = "Your coordinated Latitude: " + position.coords.latitude + 
+            "<br>Longitude: " + position.coords.longitude;
+            console.log(longitude, latitude)
+            GetMap(longitude, latitude)
+
+        }
+    </script>
+</body>
+</html>
